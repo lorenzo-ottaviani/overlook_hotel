@@ -34,7 +34,7 @@ public class Customer {
     @JoinColumn(name = "status_id")
     private Status status;
 
-    @OneToMany(mappedBy = "customers")
+    @OneToMany(mappedBy = "customer")
     private Set<Reservation> reservations;
 
     // Constructors
