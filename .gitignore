@@ -24,17 +24,23 @@ hs_err_pid*
 replay_pid*
 
 # Maven build folder
+HELP.md
 target/
+.mvn/wrapper/maven-wrapper.jar
+!**/src/main/**/target/
+!**/src/test/**/target/
 
 # Database settings file
-application.properties
+# application.properties
 
 ### IntelliJ IDEA ###
 out/
 !**/src/main/**/out/
 !**/src/test/**/out/
 .idea/
+*.iws
 *.iml
+*.ipr
 
 ### Eclipse ###
 .apt_generated
@@ -54,6 +60,9 @@ bin/
 /dist/
 /nbdist/
 /.nb-gradle/
+build/
+!**/src/main/**/build/
+!**/src/test/**/build/
 
 ### VS Code ###
 .vscode/
