@@ -1,10 +1,26 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+<html lang="fr" xmlns:th="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta charset="UTF-8">
+        <title>Connexion client</title>
+        <link rel="stylesheet" th:href="@{/style.css}" />
+    </head>
+    <body>
+        <form method="post" th:action="@{/process-login}">
+            <div>
+                <label for="email">Email :</label>
+                <input type="email" th:field="*{email}" id="email" required />
+                <div th:if="${#fields.hasErrors('email')}" th:errors="*{email}" style="color:red"></div>
+            </div>
 
-</body>
+            <div>
+                <label for="password">Mot de passe :</label>
+                <input type="password" th:field="*{password}" id="password" required minlength="12" />
+                <div th:if="${#fields.hasErrors('password')}" th:errors="*{password}" style="color:red"></div>
+            </div>
+
+            <div>
+                <input type="submit" value="Se connecter !" />
+            </div>
+        </form>
+    </body>
 </html>
