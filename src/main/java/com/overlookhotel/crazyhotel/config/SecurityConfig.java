@@ -1,7 +1,11 @@
 package com.overlookhotel.crazyhotel.config;
 
+import com.overlookhotel.crazyhotel.service.CustomerLoginService;
+import com.overlookhotel.crazyhotel.service.StaffLoginService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer;
@@ -14,9 +18,16 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableWebSecurity
 public class SecurityConfig {
 
-    // Access rules config
+    private final CustomerLoginService customerLoginService;
+    private final StaffLoginService staffLoginService;
+
+    public SecurityConfig(CustomerLoginService customerLoginService, StaffLoginService staffLoginService) {
+        this.customerLoginService = customerLoginService;
+        this.staffLoginService = staffLoginService;
+    }
+
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain filterChain(HttpSecurity http, AuthenticationManager authManager) throws Exception {
         http
                 .authorizeHttpRequests(authz -> authz
                         .requestMatchers("/h2-console/**").permitAll()
@@ -27,25 +38,31 @@ public class SecurityConfig {
                         .requestMatchers("/stats").authenticated()
                         .anyRequest().authenticated()
                 )
-                // To use the H2 console with an iframe
-                .csrf(csrf -> csrf
-                        .ignoringRequestMatchers("/h2-console/**")
-                )
-                .headers(headers -> headers
-                        .frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin)
-                )
-                // Basic login form config
+                .csrf(csrf -> csrf.ignoringRequestMatchers("/h2-console/**"))
+                .headers(headers -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin))
                 .formLogin(form -> form
                         .loginPage("/customer/login")
+                        .loginProcessingUrl("/process-login")
                         .permitAll()
+                        .usernameParameter("email")
+                        .defaultSuccessUrl("/customer/dashboard", true)
+                        .failureUrl("/customer/login?error=true")
                 )
-                // Logout config
-                .logout(LogoutConfigurer::permitAll);
+                .logout(logout -> logout.permitAll())
+                .authenticationManager(authManager);  // <== on injecte l'AuthenticationManager ici
 
         return http.build();
     }
 
-    // Password bean encoder
+    @Bean
+    public AuthenticationManager authenticationManager(HttpSecurity http) throws Exception {
+        AuthenticationManagerBuilder builder = http.getSharedObject(AuthenticationManagerBuilder.class);
+        builder.userDetailsService(customerLoginService)
+                .passwordEncoder(passwordEncoder());
+
+        return builder.build();
+    }
+
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();

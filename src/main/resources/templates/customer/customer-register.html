@@ -9,13 +9,13 @@
         <form method="post" th:action="@{/customer/register}" th:object="${registerForm}">
             <div>
                 <label for="firstName">Prénom :</label>
-                <input type="text" th:field="*{firstName}" id="firstName" required/>
+                <input type="text" th:field="*{firstName}" id="firstName" required />
                 <div th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}" style="color:red"></div>
             </div>
 
             <div>
                 <label for="lastName">Nom :</label>
-                <input type="text" th:field="*{lastName}" id="lastName" required/>
+                <input type="text" th:field="*{lastName}" id="lastName" required />
                 <div th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}" style="color:red"></div>
             </div>
 
@@ -27,7 +27,7 @@
 
             <div>
                 <label for="email">Email :</label>
-                <input type="email" th:field="*{email}" id="email" required/>
+                <input type="email" th:field="*{email}" id="email" required />
                 <div th:if="${#fields.hasErrors('email')}" th:errors="*{email}" style="color:red"></div>
             </div>
 
