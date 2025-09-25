@@ -1,0 +1,28 @@
+<html lang="fr" xmlns:th="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta charset="UTF-8" />
+        <title>Connexion client</title>
+        <link rel="stylesheet" th:href="@{/style.css}" />
+    </head>
+    <body>
+        <form method="post" th:action="@{/customer/process-login}">
+            <div th:if="${param.error}" style="color:red">
+                Email ou mot de passe incorrect.
+            </div>
+
+            <div>
+                <label for="email">Email :</label>
+                <input type="email" name="email" id="email" required />
+            </div>
+
+            <div>
+                <label for="password">Mot de passe :</label>
+                <input type="password" name="password" id="password" required minlength="12" />
+            </div>
+
+            <div>
+                <input type="submit" value="Se connecter !" />
+            </div>
+        </form>
+    </body>
+</html>
