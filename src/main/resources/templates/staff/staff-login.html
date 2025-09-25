@@ -1,21 +1,23 @@
 <html lang="fr" xmlns:th="http://www.w3.org/1999/xhtml">
     <head>
-        <meta charset="UTF-8">
-        <title>Connexion client</title>
+        <meta charset="UTF-8" />
+        <title>Connexion staff</title>
         <link rel="stylesheet" th:href="@{/style.css}" />
     </head>
     <body>
-        <form method="post" th:action="@{/process-login}">
+        <form method="post" th:action="@{/staff/process-login}">
+            <div th:if="${param.error}" style="color:red">
+                Email ou mot de passe incorrect.
+            </div>
+
             <div>
                 <label for="email">Email :</label>
-                <input type="email" th:field="*{email}" id="email" required />
-                <div th:if="${#fields.hasErrors('email')}" th:errors="*{email}" style="color:red"></div>
+                <input type="email" name="email" id="email" required />
             </div>
 
             <div>
                 <label for="password">Mot de passe :</label>
-                <input type="password" th:field="*{password}" id="password" required minlength="12" />
-                <div th:if="${#fields.hasErrors('password')}" th:errors="*{password}" style="color:red"></div>
+                <input type="password" name="password" id="password" required minlength="12" />
             </div>
 
             <div>
