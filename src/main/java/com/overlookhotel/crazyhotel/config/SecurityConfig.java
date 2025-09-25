@@ -1,15 +1,14 @@
 package com.overlookhotel.crazyhotel.config;
 
+import com.overlookhotel.crazyhotel.security.CustomStaffAuthenticationSuccessHandler;
 import com.overlookhotel.crazyhotel.service.CustomerLoginService;
 import com.overlookhotel.crazyhotel.service.StaffLoginService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer;
-import org.springframework.security.config.annotation.web.configurers.LogoutConfigurer;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -17,50 +16,91 @@ import org.springframework.security.web.SecurityFilterChain;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
-
-    private final CustomerLoginService customerLoginService;
     private final StaffLoginService staffLoginService;
+    private final CustomerLoginService customerLoginService;
+    private final CustomStaffAuthenticationSuccessHandler successHandler;
 
-    public SecurityConfig(CustomerLoginService customerLoginService, StaffLoginService staffLoginService) {
-        this.customerLoginService = customerLoginService;
+    public SecurityConfig(StaffLoginService staffLoginService,
+                          CustomerLoginService customerLoginService,
+                          CustomStaffAuthenticationSuccessHandler successHandler) {
         this.staffLoginService = staffLoginService;
+        this.customerLoginService = customerLoginService;
+        this.successHandler = successHandler;
     }
 
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http, AuthenticationManager authManager) throws Exception {
+    public SecurityFilterChain staffSecurityFilterChain(HttpSecurity http) throws Exception {
         http
+                .securityMatcher("/staff/**", "/admin/**", "/employee/**", "/staff/login", "/staff/process-login")
                 .authorizeHttpRequests(authz -> authz
-                        .requestMatchers("/h2-console/**").permitAll()
-                        .requestMatchers("/", "/staff/login", "/customer/login", "/customer/register").permitAll()
+                        .requestMatchers("/staff/login", "/staff/process-login").permitAll()
                         .requestMatchers("/admin/**").hasRole("ADMIN")
-                        .requestMatchers("/customer/**").hasRole("CUSTOMER")
                         .requestMatchers("/employee/**").hasRole("EMPLOYEE")
-                        .requestMatchers("/stats").authenticated()
                         .anyRequest().authenticated()
                 )
-                .csrf(csrf -> csrf.ignoringRequestMatchers("/h2-console/**"))
-                .headers(headers -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin))
                 .formLogin(form -> form
-                        .loginPage("/customer/login")
-                        .loginProcessingUrl("/process-login")
-                        .permitAll()
+                        .loginPage("/staff/login")
+                        .loginProcessingUrl("/staff/process-login")
                         .usernameParameter("email")
-                        .defaultSuccessUrl("/customer/dashboard", true)
-                        .failureUrl("/customer/login?error=true")
+                        .passwordParameter("password")
+                        .successHandler(successHandler)
+                        .failureUrl("/staff/login?error=true")
+                        .permitAll()
                 )
-                .logout(logout -> logout.permitAll())
-                .authenticationManager(authManager);  // <== on injecte l'AuthenticationManager ici
+                .logout(logout -> logout
+                        .logoutUrl("/staff/logout")
+                        .logoutSuccessUrl("/staff/login?logout")
+                        .permitAll()
+                )
+                .authenticationProvider(staffAuthenticationProvider(staffLoginService));
 
         return http.build();
     }
 
     @Bean
-    public AuthenticationManager authenticationManager(HttpSecurity http) throws Exception {
-        AuthenticationManagerBuilder builder = http.getSharedObject(AuthenticationManagerBuilder.class);
-        builder.userDetailsService(customerLoginService)
-                .passwordEncoder(passwordEncoder());
+    public SecurityFilterChain customerSecurityFilterChain(HttpSecurity http) throws Exception {
+        http
+                .securityMatcher("/customer/**", "/h2-console/**", "/customer/login", "/customer/process-login", "/customer/register")
+                .authorizeHttpRequests(authz -> authz
+                        .requestMatchers("/customer/login", "/customer/register", "/h2-console/**").permitAll()
+                        .requestMatchers("/customer/**").hasRole("CUSTOMER")
+                        // .requestMatchers("/stats").authenticated()
+                )
+                .csrf(csrf -> csrf.ignoringRequestMatchers("/h2-console/**"))
+                .headers(headers -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin))
+                .formLogin(form -> form
+                        .loginPage("/customer/login")
+                        .loginProcessingUrl("/customer/process-login")
+                        .usernameParameter("email")
+                        .passwordParameter("password")
+                        .defaultSuccessUrl("/customer/dashboard", true)
+                        .failureUrl("/customer/login?error=true")
+                        .permitAll()
+                )
+                .logout(logout -> logout
+                        .logoutUrl("/customer/logout")
+                        .logoutSuccessUrl("/customer/login?logout")
+                        .permitAll()
+                )
+                .authenticationProvider(customerAuthenticationProvider(customerLoginService));
 
-        return builder.build();
+        return http.build();
+    }
+
+    @Bean
+    public DaoAuthenticationProvider staffAuthenticationProvider(StaffLoginService userDetailService) {
+        DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
+        authProvider.setUserDetailsService(userDetailService);
+        authProvider.setPasswordEncoder(new BCryptPasswordEncoder());
+        return authProvider;
+    }
+
+    @Bean
+    public DaoAuthenticationProvider customerAuthenticationProvider(CustomerLoginService userDetailService) {
+        DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
+        authProvider.setUserDetailsService(userDetailService);
+        authProvider.setPasswordEncoder(new BCryptPasswordEncoder());
+        return authProvider;
     }
 
     @Bean

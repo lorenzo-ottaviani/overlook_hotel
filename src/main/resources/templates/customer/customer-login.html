@@ -5,7 +5,7 @@
         <link rel="stylesheet" th:href="@{/style.css}" />
     </head>
     <body>
-        <form method="post" th:action="@{/process-login}">
+        <form method="post" th:action="@{/customer/process-login}">
             <div th:if="${param.error}" style="color:red">
                 Email ou mot de passe incorrect.
             </div>
