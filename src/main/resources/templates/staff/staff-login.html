@@ -5,24 +5,44 @@
         <link rel="stylesheet" th:href="@{/style.css}" />
     </head>
     <body>
-        <form method="post" th:action="@{/staff/process-login}">
-            <div th:if="${param.error}" style="color:red">
-                Email ou mot de passe incorrect.
+        <header>
+            <div>
+                <a> Crazy Hotel </a>
             </div>
+        </header>
+
+        <main>
+            <h1> Connexion Client </h1>
+
+            <form method="post" th:action="@{/staff/process-login}">
+                <div th:if="${param.error}" style="color:red">
+                    Email ou mot de passe incorrect.
+                </div>
+
+                <div>
+                    <label for="email">Email :</label>
+                    <input type="email" name="email" id="email" required />
+                </div>
+
+                <div>
+                    <label for="password">Mot de passe :</label>
+                    <input type="password" name="password" id="password" required minlength="12" />
+                </div>
+
+                <div>
+                    <input type="submit" value="Se connecter !" />
+                </div>
+            </form>
 
             <div>
-                <label for="email">Email :</label>
-                <input type="email" name="email" id="email" required />
+                <button> Connexion Client </button>
+                <button> Inscription Client </button>
+                <button> Connexion Staff </button>
             </div>
+        </main>
 
-            <div>
-                <label for="password">Mot de passe :</label>
-                <input type="password" name="password" id="password" required minlength="12" />
-            </div>
+        <footer>
 
-            <div>
-                <input type="submit" value="Se connecter !" />
-            </div>
-        </form>
+        </footer>
     </body>
 </html>
