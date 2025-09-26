@@ -1,0 +1,167 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    height: 100%;
+    font-family: Arial, sans-serif;
+    background: linear-gradient(135deg, #f5f5dc, #fdf6e3);
+    color: #5c4d3d;
+    display: flex;
+    flex-direction: column;
+}
+
+.header {
+    background: #8b7d6b;
+    padding: 0.7rem 1rem;
+    text-align: center;
+    color: #fff;
+}
+
+.logo a {
+    text-decoration: none;
+    color: #fff;
+    font-size: 1.25rem;
+    font-weight: bold;
+}
+
+.container {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 0.4rem;
+}
+
+.card {
+    background: linear-gradient(120deg, #ffffff, #fffaf0);
+    padding: 1rem 1.2rem;
+    border-radius: 12px;
+    box-shadow: 0 6px 16px rgba(0,0,0,0.12);
+    width: 100%;
+    max-width: 420px;
+    max-height: 92%;
+    overflow: visible;
+    text-align: center;
+}
+
+.card h1 {
+    margin-bottom: 0.9rem;
+    font-size: 1.25rem;
+    color: #5c4d3d;
+}
+
+.form-group {
+    margin-bottom: 0.6rem;
+}
+
+label {
+    display: block;
+    margin-bottom: 0.25rem;
+    font-weight: 700;
+    font-size: 0.95rem;
+    color: #5c4d3d;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="tel"] {
+    width: 100%;
+    padding: 0.35rem 0.6rem;
+    border: 1px solid #b0a38f;
+    border-radius: 8px;
+    font-size: 0.92rem;
+    transition: border 0.2s, box-shadow 0.2s;
+}
+
+input:focus {
+    border-color: #cbb891;
+    outline: none;
+    box-shadow: 0 0 4px rgba(203,184,145,0.35);
+}
+
+.btn.connect {
+    display: block;
+    margin: 0.7rem auto 0 auto;
+    background: #10b981;
+    color: #fff;
+    font-weight: 700;
+    border: none;
+    padding: 0.35rem 0.6rem;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 0.92rem;
+    transition: background 0.2s, transform 0.12s;
+}
+.btn.connect:hover { transform: scale(1.02); }
+
+.btn-group {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    gap: 0.25rem;
+    margin-top: 0.8rem;
+}
+
+.btn {
+    flex: 1 1 0;
+    max-width: 160px;
+    min-width: 100px;
+    padding: 0.35rem 0.6rem;
+    border-radius: 8px;
+    text-align: center;
+    font-weight: 700;
+    cursor: pointer;
+    font-size: 0.92rem;
+    transition: transform 0.12s;
+}
+
+.btn.client {
+    background: #d9c5a3;
+    color: #5c4d3d;
+}
+.btn.client:hover { transform: translateY(-1px); }
+
+.btn.staff {
+    background: #fff;
+    color: #5c4d3d;
+    border: 1px solid #b0a38f;
+}
+.btn.staff:hover { transform: translateY(-1px); }
+
+.error {
+    color: #c53030;
+    margin-bottom: 0.6rem;
+    font-weight: 700;
+    text-align: center;
+    font-size: 0.92rem;
+}
+
+.footer {
+    background: #8b7d6b;
+    padding: 0.6rem 1rem;
+    color: #fff;
+    text-align: center;
+    font-size: 0.85rem;
+    box-shadow: 0 -3px 8px rgba(0,0,0,0.08);
+}
+
+@media (max-width: 480px) {
+    .card {
+        padding: 0.7rem 0.9rem;
+        max-width: 96%;
+    }
+    .card h1 { font-size: 1.1rem; margin-bottom: 0.6rem; }
+    .form-group { margin-bottom: 0.5rem; }
+    label { font-size: 0.92rem; margin-bottom: 0.2rem; }
+    input[type="text"], input[type="email"], input[type="password"], input[type="tel"] {
+        padding: 0.32rem 0.5rem;
+        font-size: 0.9rem;
+    }
+    .btn.connect, .btn { padding: 0.32rem 0.5rem; font-size: 0.9rem; }
+    .btn-group { gap: 0.2rem; margin-top: 0.6rem; flex-direction: column; align-items: stretch; }
+    .btn { max-width: 100%; min-width: 0; }
+}
