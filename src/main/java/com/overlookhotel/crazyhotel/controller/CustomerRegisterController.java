@@ -26,10 +26,22 @@ public class CustomerRegisterController {
     }
 
     @GetMapping("/customer/register")
-    public String showRegisterForm(Model model) {
-        logger.debug("Display of the customer registration form.");
+    public String showCustomerRegisterPage(Model model) {
+        logger.debug("Display of the customer registration page.");
         model.addAttribute("registerForm", new RegisterForm());
         return "customer/customer-register";
+    }
+
+    @GetMapping("/customer/login/from-register")
+    public String switchToCustomerLoginPageFromRegister() {
+        logger.debug("Switch to the customer login page.");
+        return "customer/customer-login";
+    }
+
+    @GetMapping("/staff/login/from-register")
+    public String switchToStaffLoginPageFromRegister() {
+        logger.debug("Switch to the staff login page.");
+        return "staff/staff-login";
     }
 
     @PostMapping("/customer/register")
