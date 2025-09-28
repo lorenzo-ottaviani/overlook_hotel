@@ -8,8 +8,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
+@RequestMapping("/staff/login")
 public class StaffLoginController {
 
     private static final Logger logger = LoggerFactory.getLogger(StaffLoginController.class);
@@ -21,23 +23,9 @@ public class StaffLoginController {
         this.loginService = staffLoginService;
     }
 
-    @GetMapping("/staff/login")
+    @GetMapping("")
     public String showStaffLoginPage() {
         logger.debug("Display of the staff login page.");
         return "staff/staff-login";
     }
-
-    @GetMapping("/customer/login/from-staff-login")
-    public String switchToCustomerLoginPageFromStaffLogin() {
-        logger.debug("Switch to the customer login page.");
-        return "customer/customer-login";
-    }
-
-    @GetMapping("/customer/register/from-staff-login")
-    public String switchToCustomerRegisterPageFromStaffLogin(Model model) {
-        logger.debug("Switch to the customer register page.");
-        model.addAttribute("registerForm", new RegisterForm());
-        return "customer/customer-register";
-    }
-
 }

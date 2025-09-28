@@ -12,8 +12,10 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
+@RequestMapping("/customer/register")
 public class CustomerRegisterController {
 
     private static final Logger logger = LoggerFactory.getLogger(CustomerRegisterController.class);
@@ -25,26 +27,14 @@ public class CustomerRegisterController {
         this.customerRegisterService = customerRegisterService;
     }
 
-    @GetMapping("/customer/register")
+    @GetMapping("")
     public String showCustomerRegisterPage(Model model) {
         logger.debug("Display of the customer registration page.");
         model.addAttribute("registerForm", new RegisterForm());
         return "customer/customer-register";
     }
 
-    @GetMapping("/customer/login/from-register")
-    public String switchToCustomerLoginPageFromRegister() {
-        logger.debug("Switch to the customer login page.");
-        return "customer/customer-login";
-    }
-
-    @GetMapping("/staff/login/from-register")
-    public String switchToStaffLoginPageFromRegister() {
-        logger.debug("Switch to the staff login page.");
-        return "staff/staff-login";
-    }
-
-    @PostMapping("/customer/register")
+    @PostMapping("")
     public String processRegister( @Valid @ModelAttribute("registerForm") RegisterForm registerForm,
             BindingResult bindingResult, Model model) {
 
@@ -65,6 +55,6 @@ public class CustomerRegisterController {
         }
 
         // Once successful, redirect to the client login page.
-        return "redirect:/customer/customer-login";
+        return "redirect:/customer/login";
     }
 }

@@ -113,24 +113,25 @@ input:focus {
     padding: 0.35rem 0.6rem;
     border-radius: 8px;
     text-align: center;
+    text-decoration: none;
     font-weight: 700;
     cursor: pointer;
     font-size: 0.92rem;
     transition: transform 0.12s;
 }
 
-.btn.client {
+.btn.dark {
     background: #d9c5a3;
     color: #5c4d3d;
 }
-.btn.client:hover { transform: translateY(-1px); }
+.btn.dark:hover { transform: translateY(-1px); }
 
-.btn.staff {
+.btn.light {
     background: #fff;
     color: #5c4d3d;
     border: 1px solid #b0a38f;
 }
-.btn.staff:hover { transform: translateY(-1px); }
+.btn.light:hover { transform: translateY(-1px); }
 
 .error {
     color: #c53030;
