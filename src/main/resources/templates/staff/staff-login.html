@@ -36,8 +36,8 @@
                     </div>
                 </form>
                 <div class="btn-group">
-                    <button class="btn staff" th:onclick="|window.location.href='@{/customer/register/from-staff-login}'|">Inscription Client</button>
-                    <button class="btn staff" th:onclick="|window.location.href='@{/customer/login/from-staff-login}'|">Connexion Client</button>
+                    <a class="btn dark" th:href="@{/customer/register}">Inscription Client</a>
+                    <a class="btn light" th:href="@{/customer/login}">Connexion Client</a>
                 </div>
             </div>
         </main>

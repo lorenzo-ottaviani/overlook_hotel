@@ -62,8 +62,8 @@
                 </form>
 
                 <div class="btn-group">
-                    <button class="btn staff" th:onclick="|window.location.href='@{/customer/login/from-register}'|">Connexion Client</button>
-                    <button class="btn staff" th:onclick="|window.location.href='@{/staff/login/from-register}'|">Connexion Staff</button>
+                    <a class="btn light" th:href="@{/customer/login}">Connexion Client</a>
+                    <a class="btn light" th:href="@{/staff/login}">Connexion Staff</a>
                 </div>
             </div>
         </main>

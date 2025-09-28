@@ -31,11 +31,9 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain staffSecurityFilterChain(HttpSecurity http) throws Exception {
         http
-                .securityMatcher("/staff/**", "/admin/**", "/employee/**", "/staff/login", "/staff/process-login",
-                        "customer/register/from-staff-login")
+                .securityMatcher("/staff/**", "/admin/**", "/employee/**", "/staff/login", "/staff/process-login")
                 .authorizeHttpRequests(authz -> authz
-                        .requestMatchers("/staff/login", "/staff/process-login",
-                                "customer/register/from-staff-login").permitAll()
+                        .requestMatchers("/staff/login", "/staff/process-login").permitAll()
                         .requestMatchers("/admin/**").hasRole("ADMIN")
                         .requestMatchers("/employee/**").hasRole("EMPLOYEE")
                         .anyRequest().authenticated()
@@ -63,10 +61,9 @@ public class SecurityConfig {
     public SecurityFilterChain customerSecurityFilterChain(HttpSecurity http) throws Exception {
         http
                 .securityMatcher("/customer/**", "/h2-console/**", "/customer/login", "/customer/process-login",
-                        "/customer/register", "customer/register/from-customer-login")
+                        "/customer/register")
                 .authorizeHttpRequests(authz -> authz
-                        .requestMatchers("/customer/login", "/customer/register", "/h2-console/**",
-                                "customer/register/from-customer-login").permitAll()
+                        .requestMatchers("/customer/login", "/customer/register", "/h2-console/**", "/customer/process-login").permitAll()
                         .requestMatchers("/customer/**").hasRole("CUSTOMER")
                         // .requestMatchers("/stats").authenticated()
                 )
