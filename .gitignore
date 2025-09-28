@@ -31,7 +31,7 @@ target/
 !**/src/test/**/target/
 
 # Database settings file
-# application.properties
+application-local.yml
 
 ### IntelliJ IDEA ###
 out/
