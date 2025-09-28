@@ -13,8 +13,17 @@
         </div>
     </header>
 
-    <main class="container">
+    <main class="dashboard-page">
         <h1> Portail Client </h1>
+
+        <div class="dashboard-grid">
+            <a th:href="@{customer/room}" class="dashboard-card">Découvrir nos chambres</a>
+            <a th:href="@{customer/reservation}" class="dashboard-card">Gérez vos réservations</a>
+            <a th:href="@{customer/loyalty}" class="dashboard-card">Programme de fidélité</a>
+            <a th:href="@{customer/events}" class="dashboard-card">Planifier un événement</a>
+            <a th:href="@{/stats}" class="dashboard-card">Statistiques</a>
+            <a th:href="@{customer/feedback}" class="dashboard-card">Donner un avis</a>
+        </div>
 
     </main>
 
