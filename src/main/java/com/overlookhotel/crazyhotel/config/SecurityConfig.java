@@ -61,11 +61,11 @@ public class SecurityConfig {
     public SecurityFilterChain customerSecurityFilterChain(HttpSecurity http) throws Exception {
         http
                 .securityMatcher("/customer/**", "/h2-console/**", "/customer/login", "/customer/process-login",
-                        "/customer/register")
+                        "/customer/register", "/stats")
                 .authorizeHttpRequests(authz -> authz
                         .requestMatchers("/customer/login", "/customer/register", "/h2-console/**", "/customer/process-login").permitAll()
                         .requestMatchers("/customer/**").hasRole("CUSTOMER")
-                        // .requestMatchers("/stats").authenticated()
+                        .requestMatchers("/stats").authenticated()
                 )
                 .csrf(csrf -> csrf.ignoringRequestMatchers("/h2-console/**"))
                 .headers(headers -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin))
