@@ -13,9 +13,13 @@
         </div>
     </header>
 
-    <main class="container">
+    <main class="dashboard-page">
         <h1> Portail Employé </h1>
 
+        <div class="dashboard-grid">
+            <a th:href="@{portal}" class="dashboard-card">Mon planificateur</a>
+            <a th:href="@{/stats}" class="dashboard-card">Statistiques</a>
+        </div>
     </main>
 
     <footer class="footer">
