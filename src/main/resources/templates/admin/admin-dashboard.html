@@ -13,8 +13,17 @@
         </div>
     </header>
 
-    <main class="container">
+    <main class="dashboard-page">
         <h1> Portail Admin </h1>
+
+        <div class="dashboard-grid">
+            <a th:href="@{room}" class="dashboard-card">Chambres</a>
+            <a th:href="@{reservation}" class="dashboard-card">Réservations</a>
+            <a th:href="@{user-management}" class="dashboard-card">Gestionnaire des employés</a>
+            <a th:href="@{events}" class="dashboard-card">Événements</a>
+            <a th:href="@{/stats}" class="dashboard-card">Statistiques</a>
+            <a th:href="@{feedback}" class="dashboard-card">Avis clients</a>
+        </div>
 
     </main>
 
